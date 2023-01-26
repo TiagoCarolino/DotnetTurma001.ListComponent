@@ -1,0 +1,28 @@
+﻿@page "/"
+@using Models
+@using DotnetTurma001.ListComponent.Shared.Components
+
+<div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Task</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" @bind-value=ToDo.Description/>
+    <button class="btn btn-primary" @onclick=AddTask>Add</button>
+</div>
+<ListComponent Title="Tasks" @bind-DataSource=ToDos ItemComplete=false MinHeight="200" ></ListComponent>
+<ListComponent Title="Tasks Complete" @bind-DataSource=ToDos ItemComplete=true MinHeight="300"></ListComponent>
+
+@code{
+    public ToDo ToDo { get; set; }
+
+    public List<ToDo> ToDos { get; set; } = new();
+
+    public void AddTask()
+    {
+        var newTodo = new ToDo
+            {
+                Description = ToDo.Description,
+                Complete = ToDo.Complete
+            };
+
+            ToDos.Add(newTodo);
+    }
+}

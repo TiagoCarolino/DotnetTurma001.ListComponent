@@ -1,0 +1,38 @@
+﻿@using Models
+<div style=@("min-height" + MinHeight + "px")>
+
+    <div class="row">@Title</div>
+
+    @if (DataSource.Any())
+    {
+        foreach (var item in DataSource)
+        {
+            if (item.Complete == ItemComplete)
+            {
+                <div class="row">@item.Description<input type="checkbox" @onchange="() => {item.Complete = !item.Complete; UpdateDataSource();}" /></div>
+            }
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int MinHeight { get; set; } = 100;
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public List<ToDo> DataSource { get; set; }
+
+    [Parameter]
+    public bool ItemComplete { get; set; }
+
+    [Parameter]
+    public EventCallback<List<ToDo>> DataSourceChaged { get; set; }
+
+    public async Task UpdateDataSource()
+    {
+        await DataSourceChaged.InvokeAsync(DataSource);
+    }
+}
